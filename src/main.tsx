@@ -32,7 +32,13 @@ async function enableMocking() {
   if (import.meta.env.VITE_ENABLE_MOCKS === "true") {
     const { worker } = await import("./mocks/browser");
 
-    await worker.start();
+    await worker.start({
+      serviceWorker: {
+        url: "/mockServiceWorker.js",
+      },
+    });
+
+    console.info("[MSW] Service Worker iniciado com sucesso.");
   }
 }
 
