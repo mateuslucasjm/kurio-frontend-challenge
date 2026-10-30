@@ -1,3 +1,4 @@
+
 import { useSession } from "@/features/auth/hooks/use-session";
 import { CartProvider } from "@/features/market/context/cart-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -27,15 +28,23 @@ function AppProviders() {
     </CartProvider>
   );
 }
+
 async function enableMocking() {
-  console.log("[MSW] Habilitado:", import.meta.env.VITE_ENABLE_MOCKS);
+  console.log(
+    "[MSW] VITE_ENABLE_MOCKS:",
+    import.meta.env.VITE_ENABLE_MOCKS,
+  );
 
   if (import.meta.env.VITE_ENABLE_MOCKS !== "true") {
     console.warn("[MSW] Mocking desabilitado.");
     return;
   }
 
+  console.log("[MSW] Importando worker...");
+
   const { worker } = await import("./mocks/browser");
+
+  console.log("[MSW] Registrando Service Worker...");
 
   await worker.start({
     serviceWorker: {
@@ -46,15 +55,46 @@ async function enableMocking() {
     },
   });
 
-  console.log("[MSW] Inicializado.");
-  console.log("[MSW] Controller:", navigator.serviceWorker.controller);
+  console.log("[MSW] Worker iniciado.");
+
+  const registrations =
+    await navigator.serviceWorker.getRegistrations();
+
+  console.log(
+    "[MSW] Service Workers registrados:",
+    registrations.map((registration) => ({
+      scope: registration.scope,
+      active: registration.active?.scriptURL,
+      state: registration.active?.state,
+    })),
+  );
+
+  console.log(
+    "[MSW] Controller:",
+    navigator.serviceWorker.controller?.scriptURL ?? null,
+  );
 }
-enableMocking().then(() => {
-  createRoot(document.getElementById("root")!).render(
+
+async function bootstrap() {
+  const rootElement = document.getElementById("root");
+
+  if (!rootElement) {
+    throw new Error("Elemento root não encontrado.");
+  }
+
+  try {
+    await enableMocking();
+  } catch (error) {
+    console.error("[MSW] Erro ao inicializar:", error);
+  }
+
+  createRoot(rootElement).render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <AppProviders />
       </QueryClientProvider>
     </StrictMode>,
   );
-});
+}
+
+void bootstrap();
