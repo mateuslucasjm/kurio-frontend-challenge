@@ -1,129 +1,114 @@
 # KURIO — NFT Marketplace
 
-Uma experiência digital de descoberta, gerenciamento e aquisição de NFTs, desenvolvida com foco em fidelidade visual, consistência de interface, organização arquitetural e integração entre dados e experiência do usuário.
+Marketplace de NFTs desenvolvido com React, TypeScript e Vite. O projeto permite explorar NFTs, visualizar detalhes, gerenciar favoritos, carteiras, carrinho e pedidos.
 
-## Sobre o projeto
+A aplicação utiliza **MSW (Mock Service Worker)** para simular a API e permitir a demonstração dos fluxos de autenticação e das funcionalidades do marketplace.
 
-O KURIO é uma aplicação de marketplace de NFTs concebida para proporcionar uma experiência completa ao colecionador, contemplando desde a exploração do catálogo até a finalização de pedidos e o gerenciamento de sua conta.
+## Tecnologias
 
-A solução foi desenvolvida em React e TypeScript, seguindo a identidade visual estabelecida no Figma e contemplando interfaces responsivas para desktop e dispositivos móveis.
+- React
+- TypeScript
+- Vite
+- TanStack Router
+- TanStack Query
+- Axios
+- Tailwind CSS
+- shadcn/ui
+- MSW
+- Lucide React
+- Sonner
 
-O projeto implementa fluxos de autenticação, gerenciamento de carteiras, favoritos, carrinho, checkout e pedidos, utilizando uma camada de dados simulada para reproduzir o comportamento de uma aplicação integrada a serviços externos.
+## Funcionalidades
 
-A aplicação também foi publicada em ambiente de produção, permitindo a navegação e a demonstração dos principais recursos diretamente pelo navegador.
-
-## Tecnologias utilizadas
-
-| Categoria | Tecnologia | Aplicação |
-|---|---|---|
-| Interface | React | Construção da aplicação e dos componentes |
-| Linguagem | TypeScript | Tipagem estática e contratos entre camadas |
-| Build | Vite | Desenvolvimento e geração da aplicação otimizada |
-| Roteamento | TanStack Router | Navegação, parâmetros de URL e rotas dinâmicas |
-| Estado remoto | TanStack Query | Consultas, mutations e gerenciamento de cache |
-| Comunicação HTTP | Axios | Centralização das requisições à API |
-| Estilização | Tailwind CSS | Sistema de estilos e responsividade |
-| Componentes | shadcn/ui | Componentes de interface acessíveis e reutilizáveis |
-| Simulação de API | MSW | Interceptação de requisições e respostas simuladas |
-| Ícones | Lucide React | Elementos visuais da interface |
-| Notificações | Sonner | Feedback de operações e interações |
-
-## Funcionalidades implementadas
-
-### Marketplace
 - Catálogo de NFTs com busca, filtros e ordenação.
-- Visualização detalhada dos ativos.
-- Informações de coleção, atributos e disponibilidade.
-- Navegação entre catálogo e detalhes.
-
-### Carrinho e checkout
-- Inclusão e remoção de NFTs.
-- Gerenciamento de quantidades.
-- Resumo de valores e taxas.
-- Seleção de carteira e rede.
-- Revisão e confirmação simulada de pedidos.
-
-### Conta do colecionador
-- Cadastro e autenticação.
-- Gerenciamento de sessão.
-- Perfil e informações pessoais.
+- Página de detalhes dos NFTs.
+- Cadastro e login.
+- Gerenciamento de perfil e sessão.
 - Cadastro e gerenciamento de carteiras.
-- Carteira principal e secundária.
-- Gerenciamento de favoritos.
+- Lista de favoritos.
+- Carrinho de compras.
+- Checkout demonstrativo.
+- Histórico de pedidos.
+- Interface responsiva para desktop e mobile.
 
-### Experiência de interface
-- Layout responsivo para desktop e mobile.
-- Componentes reutilizáveis.
-- Estados de carregamento, erro e ausência de resultados.
-- Feedback visual para operações.
-- Navegação integrada aos parâmetros da URL.
+## Acesso para demonstração
 
-## Arquitetura
+A aplicação possui um usuário previamente cadastrado para testar o login.
 
-A aplicação adota uma organização orientada a funcionalidades (*feature-based architecture*), agrupando componentes, hooks, serviços, tipos e responsabilidades conforme o domínio da aplicação.
+| Campo  | Credencial        |
+| ------ | ----------------- |
+| E-mail | `teste@email.com` |
+| Senha  | `12345678`        |
 
-Essa estrutura favorece a separação entre interface, regras de negócio e comunicação com a camada de dados.
+Também é possível criar uma nova conta pela tela de cadastro.
 
-| Camada | Responsabilidade |
-|---|---|
-| Components | Apresentação e composição da interface |
-| Hooks | Encapsulamento de estados e comportamentos |
-| Services | Comunicação com os recursos da API |
-| Types | Definição dos contratos e estruturas de dados |
-| Context | Compartilhamento de estados entre componentes |
-| Routes | Organização da navegação e dos fluxos da aplicação |
-| Mocks | Simulação dos recursos e respostas da API |
+**Observação:** a autenticação e os dados são simulados pelo MSW e armazenados no navegador. Não existe autenticação real ou persistência compartilhada entre dispositivos.
 
-O gerenciamento de dados assíncronos é realizado com TanStack Query, enquanto o TanStack Router organiza a navegação e os parâmetros de pesquisa. O Axios centraliza a comunicação HTTP, mantendo a interface desacoplada dos detalhes de transporte.
+## Instalação
 
-## API e endpoints
+Clone o repositório:
 
-A camada de comunicação utiliza contratos REST para representar os principais recursos do marketplace. Durante a demonstração, as operações são simuladas pelo MSW, sem dependência de serviços privados ou de uma infraestrutura blockchain real.
-
-| Recurso | Método | Endpoint | Descrição |
-|---|---|---|---|
-| Carteiras | GET | `/wallets` | Consulta as carteiras do usuário |
-| Carteiras | POST | `/wallets` | Cadastra uma carteira |
-| Carteiras | DELETE | `/wallets/:id` | Remove uma carteira |
-
-Os demais recursos da aplicação são organizados por domínio, contemplando autenticação, catálogo, favoritos, carrinho, perfil e pedidos, conforme os serviços e contratos utilizados no projeto.
-
-### Exemplo de operações
-
-**Consulta de carteiras**
-```http
-GET /wallets
+```bash
+git clone https://github.com/mateuslucasjm/kurio-frontend-challenge.git
+cd kurio-frontend-challenge
 ```
 
-**Cadastro de carteira**
-```http
-POST /wallets
-Content-Type: application/json
+Instale as dependências:
+
+```bash
+npm install
 ```
 
-**Remoção de carteira**
-```http
-DELETE /wallets/:id
+Crie o arquivo `.env` a partir do exemplo:
+
+```bash
+cp .env.example .env
 ```
 
-As respostas simuladas contemplam os estados de sucesso e os principais cenários de validação, autenticação, inexistência de recursos e conflitos de operação.
+## Variáveis de ambiente
 
-## Ambiente de demonstração
+O arquivo `.env.example` contém as configurações necessárias para executar a aplicação com o MSW:
 
-A aplicação foi disponibilizada publicamente, com os recursos simulados necessários para explorar a experiência do marketplace sem exigir conexão com carteiras externas, gateways de pagamento ou redes blockchain.
+```env
+VITE_API_URL=/api
+VITE_ENABLE_MOCKS=true
+```
 
-As operações de compra representam um fluxo demonstrativo: não há transferência real de criptomoedas nem execução de transações em blockchain.
+## Executar o projeto
 
-## Links
+Inicie o ambiente de desenvolvimento:
 
-| Recurso | Endereço |
-|---|---|
-| Aplicação publicada | [Acessar KURIO](https://kurio-frontend-challenge-phi.vercel.app/) |
-| Repositório | [Código-fonte no GitHub](https://github.com/mateuslucasjm/kurio-frontend-challenge) |
-| Pull Request | [Contribuição para o desafio original](https://github.com/junglegaming/frontend-challenge) |
+```bash
+npm run dev
+```
 
-## Considerações finais
+Gere o build de produção:
 
-O desenvolvimento do KURIO consolidou a implementação de uma aplicação frontend estruturada em domínios funcionais, com contratos tipados, gerenciamento de estado assíncrono e integração entre diferentes fluxos de negócio.
+```bash
+npm run build
+```
 
-A entrega contempla uma aplicação navegável e publicada, com uma arquitetura preparada para evolução e substituição da camada simulada por serviços reais, mantendo a separação entre apresentação, regras de negócio e comunicação com a API.
+## Estrutura do projeto
+
+A aplicação utiliza uma organização baseada em funcionalidades (_feature-based architecture_).
+
+```text
+src/
+├── components/
+├── features/
+│   ├── auth/
+│   ├── catalog/
+│   ├── market/
+│   └── nft-details/
+├── lib/
+├── mocks/
+├── routes/
+├── styles/
+└── main.tsx
+```
+
+## Demonstração
+
+**Aplicação publicada:** https://kurio-frontend-challenge-phi.vercel.app/
+
+**Repositório:** https://github.com/mateuslucasjm/kurio-frontend-challenge
