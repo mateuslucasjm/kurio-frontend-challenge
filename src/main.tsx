@@ -27,21 +27,28 @@ function AppProviders() {
     </CartProvider>
   );
 }
-
 async function enableMocking() {
-  if (import.meta.env.VITE_ENABLE_MOCKS === "true") {
-    const { worker } = await import("./mocks/browser");
+  console.log("[MSW] Habilitado:", import.meta.env.VITE_ENABLE_MOCKS);
 
-    await worker.start({
-      serviceWorker: {
-        url: "/mockServiceWorker.js",
-      },
-    });
-
-    console.info("[MSW] Service Worker iniciado com sucesso.");
+  if (import.meta.env.VITE_ENABLE_MOCKS !== "true") {
+    console.warn("[MSW] Mocking desabilitado.");
+    return;
   }
-}
 
+  const { worker } = await import("./mocks/browser");
+
+  await worker.start({
+    serviceWorker: {
+      url: "/mockServiceWorker.js",
+      options: {
+        scope: "/",
+      },
+    },
+  });
+
+  console.log("[MSW] Inicializado.");
+  console.log("[MSW] Controller:", navigator.serviceWorker.controller);
+}
 enableMocking().then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
