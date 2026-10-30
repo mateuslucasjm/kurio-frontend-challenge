@@ -29,7 +29,7 @@ function AppProviders() {
 }
 
 async function enableMocking() {
-  if (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCKS === "true") {
+  if (import.meta.env.VITE_ENABLE_MOCKS === "true") {
     const { worker } = await import("./mocks/browser");
 
     await worker.start();
