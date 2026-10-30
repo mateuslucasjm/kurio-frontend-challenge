@@ -120,7 +120,7 @@ As operações de compra representam um fluxo demonstrativo: não há transferê
 |---|---|
 | Aplicação publicada | [Acessar KURIO](https://kurio-frontend-challenge-phi.vercel.app/) |
 | Repositório | [Código-fonte no GitHub](https://github.com/mateuslucasjm/kurio-frontend-challenge) |
-| Pull Request | [Contribuição para o desafio original](https://github.com/junglegaming/frontend-challenge/pull/new/feat/nft-marketplace) |
+| Pull Request | [Contribuição para o desafio original](https://github.com/junglegaming/frontend-challenge) |
 
 ## Considerações finais
 
