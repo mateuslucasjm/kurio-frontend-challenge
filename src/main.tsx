@@ -1,4 +1,3 @@
-
 import { useSession } from "@/features/auth/hooks/use-session";
 import { CartProvider } from "@/features/market/context/cart-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -30,17 +29,11 @@ function AppProviders() {
 }
 
 async function enableMocking() {
-  console.log(
-    "[MSW] VITE_ENABLE_MOCKS:",
-    import.meta.env.VITE_ENABLE_MOCKS,
-  );
+  console.log("[MSW] Iniciando...");
 
-  if (import.meta.env.VITE_ENABLE_MOCKS !== "true") {
-    console.warn("[MSW] Mocking desabilitado.");
-    return;
+  if (!("serviceWorker" in navigator)) {
+    throw new Error("Service Worker não é suportado neste navegador.");
   }
-
-  console.log("[MSW] Importando worker...");
 
   const { worker } = await import("./mocks/browser");
 
@@ -55,10 +48,9 @@ async function enableMocking() {
     },
   });
 
-  console.log("[MSW] Worker iniciado.");
+  console.log("[MSW] Inicializado com sucesso.");
 
-  const registrations =
-    await navigator.serviceWorker.getRegistrations();
+  const registrations = await navigator.serviceWorker.getRegistrations();
 
   console.log(
     "[MSW] Service Workers registrados:",

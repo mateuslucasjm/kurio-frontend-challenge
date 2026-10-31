@@ -6,7 +6,7 @@ export const articles = [
     readingTime: 6,
     title: "Como funciona a propriedade de NFTs",
     description: "Aprenda a colecionar, negociar e verificar ativos digitais.",
-    href: "/blog/propriedade-de-nfts",
+    href: "/market",
   },
   {
     id: "digital-artists",
@@ -15,7 +15,7 @@ export const articles = [
     readingTime: 2,
     title: "10 artistas digitais para acompanhar",
     description: "Conheça criadores que moldam a cultura digital.",
-    href: "/blog/artistas-digitais",
+    href: "/market",
   },
   {
     id: "rarity",
@@ -25,7 +25,7 @@ export const articles = [
     title: "Raridade, atributos e procedência",
     description:
       "Entenda raridade, procedência, direitos autorais e utilidade.",
-    href: "/blog/raridade-e-atributos",
+    href: "/market",
   },
   {
     id: "wallet-security",
@@ -34,6 +34,6 @@ export const articles = [
     readingTime: 2,
     title: "Como proteger sua carteira",
     description: "Proteja sua carteira, seus ativos e sua identidade.",
-    href: "/blog/seguranca-da-carteira",
+    href: "/market",
   },
 ];
