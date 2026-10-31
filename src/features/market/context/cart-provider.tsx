@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -53,11 +54,84 @@ function getStoredCart(userId: string | null): CartItem[] {
   }
 }
 
+function mergeCart(
+  existingCart: CartItem[],
+  incomingCart: CartItem[],
+): CartItem[] {
+  const mergedCart = [...existingCart];
+
+  for (const incomingItem of incomingCart) {
+    const existingIndex = mergedCart.findIndex(
+      (item) =>
+        item.nft.id === incomingItem.nft.id &&
+        item.edition === incomingItem.edition,
+    );
+
+    if (existingIndex !== -1) {
+      mergedCart[existingIndex] = {
+        ...mergedCart[existingIndex],
+        quantity: mergedCart[existingIndex].quantity + incomingItem.quantity,
+      };
+    } else {
+      mergedCart.push(incomingItem);
+    }
+  }
+
+  return mergedCart;
+}
+
+function getInitialCart(userId: string | null): CartItem[] {
+  if (!userId) {
+    return getStoredCart(null);
+  }
+
+  const userCart = getStoredCart(userId);
+  const guestCart = getStoredCart(null);
+
+  return mergeCart(userCart, guestCart);
+}
+
 export function CartProvider({ children, userId }: CartProviderProps) {
-  const [items, setItems] = useState<CartItem[]>(() => getStoredCart(userId));
+  const [items, setItems] = useState<CartItem[]>(() => getInitialCart(userId));
+
+  const previousUserId = useRef(userId);
 
   useEffect(() => {
+    if (previousUserId.current !== userId) {
+      const previousId = previousUserId.current;
+
+      if (userId) {
+        const userCart = getStoredCart(userId);
+
+        const incomingCart = previousId === null ? items : [];
+
+        const mergedCart = mergeCart(userCart, incomingCart);
+
+        setItems(mergedCart);
+
+        localStorage.setItem(
+          getCartStorageKey(userId),
+          JSON.stringify(mergedCart),
+        );
+
+        localStorage.removeItem(getCartStorageKey(null));
+      } else {
+        if (previousId) {
+          localStorage.removeItem(getCartStorageKey(previousId));
+        }
+
+        setItems([]);
+      }
+
+      previousUserId.current = userId;
+      return;
+    }
+
     localStorage.setItem(getCartStorageKey(userId), JSON.stringify(items));
+
+    if (userId) {
+      localStorage.removeItem(getCartStorageKey(null));
+    }
   }, [items, userId]);
 
   const addToCart = useCallback(
